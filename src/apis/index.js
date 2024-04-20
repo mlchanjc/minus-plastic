@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-	baseURL: `${process.env.API_URL}/api/record`,
+	baseURL: `/api/record`,
 });
 
 export const createRecord = async (username, plasticAmount) => {
