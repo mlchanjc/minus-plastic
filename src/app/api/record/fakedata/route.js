@@ -54,7 +54,6 @@ export const POST = async (req) => {
 		for (let i = 0; i < 300; i++) {
 			fakeRecords.push({
 				username: names[Math.floor(Math.random() * names.length)],
-				email: "abc",
 				createdAt: getRandomDate(),
 				plasticAmount: Math.random() * 500,
 			});

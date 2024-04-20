@@ -1,16 +1,23 @@
 "use client";
 import { createFakeRecords, createRecord, deleteAllRecord } from "@/apis";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const RecordForm = () => {
-	const [formData, setFormData] = useState(
-		localStorage.getItem("form-data")
-			? JSON.parse(localStorage.getItem("form-data"))
-			: {
-					name: "",
-					email: "",
-			  }
-	);
+	const [formData, setFormData] = useState({
+		name: "",
+		plasticAmount: 0,
+	});
+
+	useEffect(() => {
+		setFormData(
+			localStorage.getItem("form-data")
+				? JSON.parse(localStorage.getItem("form-data"))
+				: {
+						name: "",
+						plasticAmount: 0,
+				  }
+		);
+	}, []);
 
 	const handleChange = (e) => {
 		const newFormData = { ...formData, [e.target.name]: e.target.value };
@@ -21,7 +28,7 @@ const RecordForm = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			await createRecord(formData.name, formData.email, 10.56);
+			await createRecord(formData.name, formData.plasticAmount);
 		} catch (error) {
 			window.alert(error.response?.data?.message);
 		}
@@ -35,8 +42,8 @@ const RecordForm = () => {
 					<input name="name" value={formData.name} onChange={handleChange} />
 				</div>
 				<div>
-					<label>Email:</label>
-					<input name="email" value={formData.email} onChange={handleChange} />
+					<label>Amount:</label>
+					<input type="number" name="plasticAmount" value={formData.plasticAmount} onChange={handleChange} />
 				</div>
 				<button type="submit">Submit</button>
 				<div

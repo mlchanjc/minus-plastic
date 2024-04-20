@@ -4,7 +4,16 @@ import Record from "@/models/Record";
 export const POST = async (req) => {
 	await connectToDB();
 	try {
-		const { username, email, plasticAmount } = await req.json();
+		const { username, plasticAmount } = await req.json();
+
+		// Check if plasticAmount is a valid number
+		if (isNaN(plasticAmount)) {
+			return new Response(JSON.stringify({ message: "Invalid plastic amount" }), { status: 401 });
+		}
+
+		if (username.length > 16) {
+			return new Response(JSON.stringify({ message: "Name too long!(max 16 characters)" }), { status: 401 });
+		}
 
 		// Check if the user has submitted today
 		const today = new Date();
@@ -23,7 +32,6 @@ export const POST = async (req) => {
 		await Record.create([
 			{
 				username,
-				email,
 				createdAt: Date.now(),
 				plasticAmount,
 			},

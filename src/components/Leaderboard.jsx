@@ -50,7 +50,7 @@ const Leaderboard = () => {
 							</button>
 						</div>
 						<div className="grid grid-flow-row grid-cols-3 items-end justify-center gap-x-2 sm:gap-x-8 p-4 h-2/5 w-full">
-							<div className="flex flex-col items-center h-4/5 bg-white bg-opacity-20 rounded-xl p-4 space-y-3">
+							<div className="flex flex-col items-center h-4/5 bg-white bg-opacity-50 rounded-xl p-4 space-y-3">
 								<motion.div animate={{ rotate: isInView ? 0 : getRandomNumber() }} transition={{ type: "spring", damping: 5 }}>
 									<Image className="select-none" src="/second-place.svg" width={120} height={120} alt="second-place" priority />
 								</motion.div>
@@ -61,7 +61,7 @@ const Leaderboard = () => {
 									</>
 								)}
 							</div>
-							<div className="flex flex-col items-center h-full bg-white bg-opacity-20 rounded-xl p-4 space-y-3">
+							<div className="flex flex-col items-center h-full bg-white bg-opacity-50 rounded-xl p-4 space-y-3">
 								<motion.div animate={{ rotate: isInView ? 0 : getRandomNumber() }} transition={{ type: "spring", damping: 7 }}>
 									<Image className="select-none" src="/first-place.svg" width={120} height={120} alt="first-place" priority />
 								</motion.div>
@@ -72,7 +72,7 @@ const Leaderboard = () => {
 									</>
 								)}
 							</div>
-							<div className="flex flex-col items-center h-4/5 bg-white bg-opacity-20 rounded-xl p-4 space-y-3">
+							<div className="flex flex-col items-center h-4/5 bg-white bg-opacity-50 rounded-xl p-4 space-y-3">
 								<motion.div animate={{ rotate: isInView ? 0 : getRandomNumber() }} transition={{ type: "spring", damping: 4 }}>
 									<Image className="select-none" src="/third-place.svg" width={120} height={120} alt="third-place" priority />
 								</motion.div>

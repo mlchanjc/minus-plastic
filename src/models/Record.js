@@ -5,10 +5,6 @@ const RecordSchema = new Schema({
 		type: String,
 		require: true,
 	},
-	email: {
-		type: String,
-		require: true,
-	},
 	createdAt: {
 		type: Date,
 		require: true,
