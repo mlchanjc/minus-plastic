@@ -4,7 +4,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-	title: "Minus Plastic",
+	title: "減塑計算器",
 };
 
 export default function RootLayout({ children }) {
