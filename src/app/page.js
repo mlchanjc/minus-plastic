@@ -2,11 +2,11 @@
 
 import dynamic from "next/dynamic";
 
-const Leaderboard = dynamic(() => import("@/components/Leaderboard"), {
+const Calculator = dynamic(() => import("@/components/Calculator"), {
 	ssr: false,
 });
 
-const Calculator = dynamic(() => import("@/components/Calculator"), {
+const Leaderboard = dynamic(() => import("@/components/Leaderboard"), {
 	ssr: false,
 });
 

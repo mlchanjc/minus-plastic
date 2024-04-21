@@ -10,8 +10,8 @@ const RecordForm = ({ amounts }) => {
 		carbonAmount: 0,
 	});
 	const [totalAmount, setTotalAmount] = useState({
-		moneyAmount: 0,
-		carbonAmount: 0,
+		totalMoneyAmount: 0,
+		totalCarbonAmount: 0,
 	});
 
 	useEffect(() => {
@@ -23,11 +23,13 @@ const RecordForm = ({ amounts }) => {
 			localStorage.getItem("totalAmount")
 				? JSON.parse(localStorage.getItem("totalAmount"))
 				: {
-						moneyAmount: 0,
-						carbonAmount: 0,
+						totalMoneyAmount: 0,
+						totalCarbonAmount: 0,
 				  }
 		);
 	}, [amounts]);
+
+	console.log(totalAmount.totalMoneyAmount);
 
 	const handleChange = (e) => {
 		const newFormData = { ...formData, [e.target.name]: e.target.value };
@@ -39,10 +41,10 @@ const RecordForm = ({ amounts }) => {
 		e.preventDefault();
 		if (formData.name.length > 0) {
 			try {
-				const { result } = await createRecord(formData.name, formData.moneyAmount);
+				const { result } = await createRecord(formData.name, formData.moneyAmount, formData.carbonAmount);
 				const newTotal = { totalMoneyAmount: result.totalMoneyAmount, totalCarbonAmount: result.totalCarbonAmount };
 				setTotalAmount(newTotal);
-				localStorage.setItem("totalMoneyAmount", JSON.stringify(newTotal));
+				localStorage.setItem("totalAmount", JSON.stringify(newTotal));
 			} catch (error) {
 				window.alert(error.response?.data?.message);
 			}
@@ -51,31 +53,35 @@ const RecordForm = ({ amounts }) => {
 
 	return (
 		<div className="w-full h-full flex flex-col lg:grid lg:grid-flow-col lg:grid-cols-2 items-center justify-around lg:justify-center lg:space-x-8 lg:py-12">
-			<div className="flex flex-col justify-center max-md:px-12 lg:p-20 gap-y-2">
-				<strong className="text-xl md:text-3xl xl:text-4xl">{`你今天節省了：`}</strong>
-				<strong className="text-2xl md:text-5xl xl:text-6xl hover-underline-animation w-fit mb-2">
-					$
-					<AnimatedNumbers
-						transitions={(index) => ({
-							type: "spring",
-							duration: index / 2.5,
-							delay: 0.7,
-						})}
-						animateToNumber={formData.moneyAmount}
-					/>
-				</strong>
-				<strong className="text-xl md:text-3xl xl:text-4xl">{`你今天減少了碳排放量：`}</strong>
-				<strong className="text-2xl md:text-5xl xl:text-6xl hover-underline-animation w-fit">
-					<AnimatedNumbers
-						transitions={(index) => ({
-							type: "spring",
-							duration: index / 2.5,
-							delay: 0.7,
-						})}
-						animateToNumber={formData.carbonAmount}
-					/>
-					克
-				</strong>
+			<div className="flex flex-col justify-center max-md:px-12 lg:p-20 gap-y-4 font-bold">
+				<div className="text-xl lg:text-4xl flex flex-col">
+					<p>你今天節省了：</p>
+					<div className="flex">
+						$
+						<AnimatedNumbers
+							transitions={(index) => ({
+								type: "spring",
+								duration: (index + 0.5) / 1.5,
+								delay: 0.8,
+							})}
+							animateToNumber={formData.moneyAmount}
+						/>
+					</div>
+				</div>
+				<div className="text-xl lg:text-4xl flex flex-col">
+					<p>你今天減少了碳排放量：</p>
+					<div className="flex">
+						<AnimatedNumbers
+							transitions={(index) => ({
+								type: "spring",
+								duration: (index + 0.5) / 1.5,
+								delay: 0.8,
+							})}
+							animateToNumber={formData.carbonAmount}
+						/>
+						克
+					</div>
+				</div>
 			</div>
 			<div className="flex flex-col items-center space-y-10">
 				<strong className="lg:text-xl">輸入姓名，記錄你在減塑路上的每一步！</strong>
@@ -85,7 +91,7 @@ const RecordForm = ({ amounts }) => {
 						<input name="name" maxLength={16} className="px-1" value={formData.name} onChange={handleChange} />
 					</div>
 					<div className="px-1 bg-lime-700 rounded-lg shadow-md">
-						<button type="submit" className="rounded-lg px-8 py-2 bg-lime-400 shadow-lg active:shadow-none -translate-y-1.5 active:-translate-y-1">
+						<button type="submit" className="rounded-lg px-8 py-2 bg-lime-400 shadow-lg active:shadow-none -translate-y-1.5 active:-translate-y-1 duration-150">
 							<strong className="text-gray-500">提交記錄</strong>
 						</button>
 					</div>
@@ -105,27 +111,27 @@ const RecordForm = ({ amounts }) => {
 						Create fake
 					</div>
 				</form>
-				<div className="flex flex-col items-center">
-					<div className="text-xl lg:text-4xl flex items-center font-bold">
+				<div className="flex flex-col items-center font-bold">
+					<div className="text-xl lg:text-3xl flex items-center">
 						<p>你一共節省了： $</p>
 
 						<AnimatedNumbers
 							transitions={(index) => ({
 								type: "spring",
-								duration: index / 2.5,
+								duration: (index + 0.5) / 1.5,
 							})}
-							animateToNumber={totalAmount.moneyAmount}
+							animateToNumber={totalAmount.totalMoneyAmount}
 						/>
 					</div>
-					<div className="text-xl lg:text-4xl flex items-center font-bold">
+					<div className="text-xl lg:text-3xl flex items-center">
 						<p>你一共減少了碳排放量：</p>
 
 						<AnimatedNumbers
 							transitions={(index) => ({
 								type: "spring",
-								duration: index / 2.5,
+								duration: (index + 0.5) / 1.5,
 							})}
-							animateToNumber={totalAmount.moneyAmount}
+							animateToNumber={totalAmount.totalCarbonAmount}
 						/>
 						<p>克</p>
 					</div>
