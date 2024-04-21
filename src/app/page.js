@@ -1,6 +1,14 @@
 "use client";
-import Calculator from "@/components/Calculator";
-import Leaderboard from "@/components/Leaderboard";
+
+import dynamic from "next/dynamic";
+
+const Leaderboard = dynamic(() => import("@/components/Leaderboard"), {
+	ssr: false,
+});
+
+const Calculator = dynamic(() => import("@/components/Calculator"), {
+	ssr: false,
+});
 
 export default function Home() {
 	return (
