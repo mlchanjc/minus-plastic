@@ -1,5 +1,6 @@
 "use client";
 import { getRanking } from "@/apis";
+import { formatNumber } from "@/utils/formatNumber";
 import { useInView, motion } from "framer-motion";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
@@ -22,16 +23,19 @@ const Leaderboard = () => {
 
 	useEffect(() => {
 		const fetchRanking = async () => {
-			setRanking(null);
 			const { result } = await getRanking(criteria);
 			setRanking(result);
 		};
+		if (isInView && !ranking) {
+			fetchRanking();
+		}
+	}, [criteria, isInView]);
 
-		fetchRanking();
-	}, [criteria]);
-
-	const handleChangeCriteria = async (e) => {
-		setCriteria(e.target.childNodes[0].textContent.toLowerCase());
+	const handleChangeCriteria = async (newCriteria) => {
+		if (newCriteria !== criteria) {
+			setRanking(null);
+			setCriteria(newCriteria);
+		}
 	};
 
 	return (
@@ -39,15 +43,15 @@ const Leaderboard = () => {
 			<div className={`w-[98vw] flex items-center justify-center duration-1000 ${isInView ? "opacity-100" : "translate-y-[300px] opacity-0"} transition-all`} ref={ref}>
 				{ranking && (
 					<div className="flex flex-col items-center h-[93vh] w-[400px] sm:w-[600px]">
-						<div className="grid grid-flow-row grid-cols-3 w-1/2 m-4">
-							<button onClick={handleChangeCriteria}>
-								<strong className="hover-underline-animation">Monthly</strong>
+						<div className="grid grid-flow-row grid-cols-3 w-2/3 m-4">
+							<button onClick={() => handleChangeCriteria("monthly")}>
+								<strong className="hover-underline-animation text-2xl bg-white px-2 py-1 bg-opacity-30 rounded">每月</strong>
 							</button>
-							<button onClick={handleChangeCriteria}>
-								<strong className="hover-underline-animation">Weekly</strong>
+							<button onClick={() => handleChangeCriteria("weekly")}>
+								<strong className="hover-underline-animation text-2xl bg-white px-2 py-1 bg-opacity-30 rounded">每周</strong>
 							</button>
-							<button onClick={handleChangeCriteria}>
-								<strong className="hover-underline-animation">Daily</strong>
+							<button onClick={() => handleChangeCriteria("daily")}>
+								<strong className="hover-underline-animation text-2xl bg-white px-2 py-1 bg-opacity-30 rounded">每日</strong>
 							</button>
 						</div>
 						<div className="grid grid-flow-row grid-cols-3 items-end justify-center gap-x-2 sm:gap-x-8 p-4 h-2/5 w-full">
@@ -58,7 +62,10 @@ const Leaderboard = () => {
 								{ranking[1] && (
 									<>
 										<strong>{ranking[1]._id}</strong>
-										<p className="text-sm bg-white text-center rounded-lg py-2 px-4">{ranking[1].totalMoneyAmount.toFixed(2)}</p>
+										<div className="text-sm bg-white rounded-lg py-1 px-4">
+											<p>${formatNumber(ranking[1].totalMoneyAmount)}</p>
+											<p>{formatNumber(ranking[1].totalCarbonAmount)}克</p>
+										</div>
 									</>
 								)}
 							</div>
@@ -69,7 +76,10 @@ const Leaderboard = () => {
 								{ranking[0] && (
 									<>
 										<strong>{ranking[0]._id}</strong>
-										<p className="text-sm bg-white text-center rounded-lg py-2 px-4">{ranking[0].totalMoneyAmount.toFixed(2)}</p>
+										<div className="text-sm bg-white rounded-lg py-1 px-4">
+											<p>${formatNumber(ranking[0].totalMoneyAmount)}</p>
+											<p>{formatNumber(ranking[0].totalCarbonAmount)}克</p>
+										</div>
 									</>
 								)}
 							</div>
@@ -80,7 +90,10 @@ const Leaderboard = () => {
 								{ranking[2] && (
 									<>
 										<strong>{ranking[2]._id}</strong>
-										<p className="text-sm bg-white text-center rounded-lg py-2 px-4">{ranking[2].totalMoneyAmount.toFixed(2)}</p>
+										<div className="text-sm bg-white rounded-lg py-1 px-4">
+											<p>${formatNumber(ranking[2].totalMoneyAmount)}</p>
+											<p>{formatNumber(ranking[2].totalCarbonAmount)}克</p>
+										</div>
 									</>
 								)}
 							</div>
@@ -91,9 +104,10 @@ const Leaderboard = () => {
 									i >= 3 && (
 										<li key={`rank${i}`} className="flex items-center p-4 space-x-4">
 											<div className="rounded-full bg-lime-200 p-1 flex-shrink-0 w-8 aspect-square text-center text-green-600">{i + 1}</div>
+											<strong>{user._id}</strong>
 											<div>
-												<strong>{user._id}</strong>
-												<p className="text-sm">{user.totalMoneyAmount.toFixed(2)}</p>
+												<p className="text-sm">${formatNumber(user.totalMoneyAmount)}</p>
+												<p className="text-sm">{formatNumber(user.totalCarbonAmount)}克</p>
 											</div>
 										</li>
 									)

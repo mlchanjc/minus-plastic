@@ -19,6 +19,7 @@ export const GET = async (req, { params }) => {
 					$group: {
 						_id: "$username",
 						totalMoneyAmount: { $sum: "$moneyAmount" },
+						totalCarbonAmount: { $sum: "$carbonAmount" },
 					},
 				},
 				{ $sort: { totalMoneyAmount: -1 } },
@@ -40,6 +41,7 @@ export const GET = async (req, { params }) => {
 					$group: {
 						_id: "$username",
 						totalMoneyAmount: { $sum: "$moneyAmount" },
+						totalCarbonAmount: { $sum: "$carbonAmount" },
 					},
 				},
 				{ $sort: { totalMoneyAmount: -1 } },
@@ -55,6 +57,7 @@ export const GET = async (req, { params }) => {
 					$group: {
 						_id: "$username",
 						totalMoneyAmount: { $sum: "$moneyAmount" },
+						totalCarbonAmount: { $sum: "$carbonAmount" },
 					},
 				},
 				{ $sort: { totalMoneyAmount: -1 } },

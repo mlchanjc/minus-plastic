@@ -2,6 +2,7 @@
 import { useState } from "react";
 import RecordForm from "./RecordForm";
 import Image from "next/image";
+import { formatNumber } from "@/utils/formatNumber";
 
 const itemList = [
 	{
@@ -62,8 +63,6 @@ const Calculator = () => {
 		carbonAmount: 0,
 	});
 
-	console.log(itemValues);
-
 	const handleValueChange = (index, value) => {
 		if (value >= 0 && value <= 99) {
 			const updatedValues = [...itemValues];
@@ -79,8 +78,8 @@ const Calculator = () => {
 		itemValues.forEach((value, i) => (carbon += value * itemList[i].carbon));
 		itemValues.forEach((value, i) => (money += value * itemList[i].money));
 		setAmounts({
-			moneyAmount: money.toFixed(2),
-			carbonAmount: carbon.toFixed(2),
+			moneyAmount: formatNumber(money),
+			carbonAmount: formatNumber(carbon),
 		});
 		setSubmitSection(true);
 	};
@@ -91,48 +90,53 @@ const Calculator = () => {
 				<div
 					className={`w-full h-full flex flex-col items-center ${
 						submitSection && "translate-y-full opacity-0"
-					} duration-700 absolute inset-0 p-4 justify-between space-y-8`}
+					} duration-500 absolute inset-0 p-4 justify-evenly space-y-4 overflow-auto`}
 				>
-					<strong className="text-3xl">減塑計算器</strong>
-					<div className="grid grid-cols-4 grid-rows-2 gap-4">
+					<strong className="md:text-3xl">減塑計算器</strong>
+					<div className="max-sm:w-full max-md:w-4/5 max-md:flex max-md:flex-col lg:grid lg:grid-cols-4 lg:grid-rows-2 max-lg:space-y-4 lg:gap-4">
 						{itemList.map((item, i) => {
 							return (
-								<div key={`item-${i}`} className="flex flex-col items-center gap-y-2">
-									<strong className="text-xl">{item.name}</strong>
-									<div className="w-44 h-44 relative">
-										<Image className="select-none" src={item.photo} fill alt={item.photo} priority />
+								<div key={`item-${i}`} className="max-lg:grid max-lg:grid-flow-row max-lg:grid-cols-3 lg:flex lg:flex-col items-center justify-center gap-y-2">
+									<strong className="text-sm lg:text-xl">{item.name}</strong>
+
+									<div className="flex justify-center w-full">
+										<div className="w-[50px] lg:w-2/3 aspect-square relative rounded overflow-hidden">
+											<Image className="select-none" src={item.photo} fill alt={item.photo} priority />
+										</div>
 									</div>
-									<div className="flex items-center gap-x-2">
-										<button
-											className="hover:opacity-70 active:translate-y-px active:opacity-100"
-											onClick={() =>
-												setItemValues((prev) => {
-													let temp = [...prev];
-													if (temp[i] > 0) temp[i] -= 1;
-													return temp;
-												})
-											}
-										>
-											<Image className="select-none" src="/minus.svg" width={30} height={30} alt="arrow" priority />
-										</button>
-										<input
-											className="w-12 h-10 text-xl text-center outline-none rounded-lg border"
-											type="number"
-											value={itemValues[i] || ""}
-											onChange={(e) => handleValueChange(i, e.target.value)}
-										/>
-										<button
-											className="hover:opacity-70 active:translate-y-px active:opacity-100"
-											onClick={() =>
-												setItemValues((prev) => {
-													let temp = [...prev];
-													if (temp[i] < 99) temp[i] += 1;
-													return temp;
-												})
-											}
-										>
-											<Image className="select-none" src="/plus.svg" width={30} height={30} alt="arrow" priority />
-										</button>
+									<div className="flex max-lg:justify-end justify-center w-full">
+										<div className="flex items-center gap-x-2">
+											<button
+												className="hover:opacity-70 active:translate-y-px active:opacity-100 w-[20px] lg:w-[30px] aspect-square relative"
+												onClick={() =>
+													setItemValues((prev) => {
+														let temp = [...prev];
+														if (temp[i] > 0) temp[i] -= 1;
+														return temp;
+													})
+												}
+											>
+												<Image className="select-none" src="/minus.svg" fill alt="arrow" priority />
+											</button>
+											<input
+												className="w-12 h-10 text-xl text-center outline-none rounded-lg border"
+												type="number"
+												value={itemValues[i] || ""}
+												onChange={(e) => handleValueChange(i, e.target.value)}
+											/>
+											<button
+												className="hover:opacity-70 active:translate-y-px active:opacity-100 w-[20px] lg:w-[30px] aspect-square relative"
+												onClick={() =>
+													setItemValues((prev) => {
+														let temp = [...prev];
+														if (temp[i] < 99) temp[i] += 1;
+														return temp;
+													})
+												}
+											>
+												<Image className="select-none" src="/plus.svg" fill alt="arrow" priority />
+											</button>
+										</div>
 									</div>
 								</div>
 							);
