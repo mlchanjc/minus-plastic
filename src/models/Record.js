@@ -9,7 +9,11 @@ const RecordSchema = new Schema({
 		type: Date,
 		require: true,
 	},
-	plasticAmount: {
+	moneyAmount: {
+		type: Number,
+		require: true,
+	},
+	carbonAmount: {
 		type: Number,
 		require: true,
 	},

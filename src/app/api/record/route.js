@@ -4,11 +4,11 @@ import Record from "@/models/Record";
 export const POST = async (req) => {
 	await connectToDB();
 	try {
-		const { username, plasticAmount } = await req.json();
+		const { username, moneyAmount, carbonAmount } = await req.json();
 
-		// Check if plasticAmount is a valid number
-		if (isNaN(plasticAmount)) {
-			return new Response(JSON.stringify({ message: "Invalid plastic amount" }), { status: 401 });
+		// Check if moneyAmount is a valid number
+		if (isNaN(moneyAmount) || isNaN(carbonAmount)) {
+			return new Response(JSON.stringify({ message: "Invalid amount" }), { status: 401 });
 		}
 
 		if (username.length > 16) {
@@ -33,24 +33,26 @@ export const POST = async (req) => {
 			{
 				username,
 				createdAt: Date.now(),
-				plasticAmount,
+				moneyAmount,
+				carbonAmount,
 			},
 		]);
 
 		// Get and return today plastic amount of this user
-		const totalPlasticAmount = await Record.aggregate([
+		const result = await Record.aggregate([
 			{
 				$match: { username },
 			},
 			{
 				$group: {
 					_id: "$username",
-					totalPlasticAmount: { $sum: "$plasticAmount" },
+					totalMoneyAmount: { $sum: "$moneyAmount" },
+					totalCarbonAmount: { $sum: "$carbonAmount" },
 				},
 			},
 		]);
 
-		return new Response(JSON.stringify({ totalPlasticAmount }), { status: 200 });
+		return new Response(JSON.stringify({ result: result[0] }), { status: 200 });
 	} catch (error) {
 		console.log(error);
 		return new Response(JSON.stringify({ message: "Server error" }), { status: 500 });

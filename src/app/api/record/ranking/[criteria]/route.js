@@ -18,10 +18,10 @@ export const GET = async (req, { params }) => {
 				{
 					$group: {
 						_id: "$username",
-						totalPlasticAmount: { $sum: "$plasticAmount" },
+						totalMoneyAmount: { $sum: "$moneyAmount" },
 					},
 				},
-				{ $sort: { totalPlasticAmount: -1 } },
+				{ $sort: { totalMoneyAmount: -1 } },
 				{ $limit: 20 },
 			]);
 		} else if (criteria === "weekly") {
@@ -39,10 +39,10 @@ export const GET = async (req, { params }) => {
 				{
 					$group: {
 						_id: "$username",
-						totalPlasticAmount: { $sum: "$plasticAmount" },
+						totalMoneyAmount: { $sum: "$moneyAmount" },
 					},
 				},
-				{ $sort: { totalPlasticAmount: -1 } },
+				{ $sort: { totalMoneyAmount: -1 } },
 				{ $limit: 20 },
 			]);
 		} else if (criteria === "daily") {
@@ -54,14 +54,14 @@ export const GET = async (req, { params }) => {
 				{
 					$group: {
 						_id: "$username",
-						totalPlasticAmount: { $sum: "$plasticAmount" },
+						totalMoneyAmount: { $sum: "$moneyAmount" },
 					},
 				},
-				{ $sort: { totalPlasticAmount: -1 } },
+				{ $sort: { totalMoneyAmount: -1 } },
 				{ $limit: 20 },
 			]);
 		} else {
-			return new Response(JSON.stringify({ message: "Invalid time range" }), { status: 401 }).sort({ plasticAmount: -1 }).limit(20);
+			return new Response(JSON.stringify({ message: "Invalid time range" }), { status: 401 }).sort({ moneyAmount: -1 }).limit(20);
 		}
 
 		return new Response(JSON.stringify({ result }), { status: 200 });

@@ -4,8 +4,9 @@ const api = axios.create({
 	baseURL: `/api/record`,
 });
 
-export const createRecord = async (username, plasticAmount) => {
-	const { data } = await api.post("", { username, plasticAmount });
+export const createRecord = async (username, moneyAmount, carbonAmount) => {
+	const { data } = await api.post("", { username, moneyAmount, carbonAmount });
+	console.log(data);
 	return data;
 };
 
