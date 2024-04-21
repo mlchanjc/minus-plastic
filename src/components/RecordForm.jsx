@@ -93,21 +93,6 @@ const RecordForm = ({ amounts }) => {
 							<strong className="text-gray-500">提交記錄</strong>
 						</button>
 					</div>
-					<div
-						onClick={async () => {
-							if (window.confirm("delete all?")) await deleteAllRecord();
-						}}
-					>
-						delete
-					</div>
-
-					<div
-						onClick={async () => {
-							if (window.confirm("create?")) await createFakeRecords();
-						}}
-					>
-						Create fake
-					</div>
 				</form>
 				<div className="flex flex-col items-center font-bold">
 					<div className="text-xl lg:text-3xl flex items-center">
