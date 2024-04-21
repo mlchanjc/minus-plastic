@@ -50,3 +50,9 @@ hr {
 .hover-underline-animation:hover::after {
     @apply scale-x-100;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

@@ -113,27 +113,29 @@ const RecordForm = ({ amounts }) => {
 				</form>
 				<div className="flex flex-col items-center font-bold">
 					<div className="text-xl lg:text-3xl flex items-center">
-						<p>你一共節省了： $</p>
-
-						<AnimatedNumbers
-							transitions={(index) => ({
-								type: "spring",
-								duration: (index + 0.5) / 1.5,
-							})}
-							animateToNumber={totalAmount.totalMoneyAmount}
-						/>
-					</div>
-					<div className="text-xl lg:text-3xl flex items-center">
 						<p>你一共減少了碳排放量：</p>
 
 						<AnimatedNumbers
 							transitions={(index) => ({
 								type: "spring",
 								duration: (index + 0.5) / 1.5,
+								delay: 0.1,
 							})}
 							animateToNumber={totalAmount.totalCarbonAmount}
 						/>
 						<p>克</p>
+					</div>
+					<div className="text-xl lg:text-3xl flex items-center">
+						<p>你一共節省了： $</p>
+
+						<AnimatedNumbers
+							transitions={(index) => ({
+								type: "spring",
+								duration: (index + 0.5) / 1.5,
+								delay: 0.1,
+							})}
+							animateToNumber={totalAmount.totalMoneyAmount}
+						/>
 					</div>
 				</div>
 			</div>
