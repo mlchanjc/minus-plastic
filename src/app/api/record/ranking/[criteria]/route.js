@@ -11,7 +11,9 @@ export const GET = async (req, { params }) => {
 		if (criteria === "monthly") {
 			const currentDate = new Date();
 			const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+			startOfMonth.setHours(0, 0, 0, 0);
 			const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+			endOfMonth.setHours(0, 0, 0, 0);
 
 			result = await Record.aggregate([
 				{ $match: { createdAt: { $gte: startOfMonth, $lt: endOfMonth } } },
@@ -29,11 +31,13 @@ export const GET = async (req, { params }) => {
 			const currentDate = new Date();
 			const currentDay = currentDate.getDay(); // Sunday: 0, Monday: 1, ..., Saturday: 6
 
-			const startOfWeek = new Date(currentDate);
+			const startOfWeek = new Date();
 			startOfWeek.setDate(currentDate.getDate() - ((currentDay + 6) % 7)); // Adjust to Monday as the start of the week
+			startOfWeek.setHours(0, 0, 0, 0);
 
-			const endOfWeek = new Date(startOfWeek);
+			const endOfWeek = new Date();
 			endOfWeek.setDate(startOfWeek.getDate() + 7); // Add 7 days to get the end of the week
+			endOfWeek.setHours(0, 0, 0, 0);
 
 			result = await Record.aggregate([
 				{ $match: { createdAt: { $gte: startOfWeek, $lt: endOfWeek } } },

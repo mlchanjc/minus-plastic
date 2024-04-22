@@ -86,7 +86,7 @@ const Calculator = () => {
 
 	return (
 		<div className="w-[98vw] h-[93vh] flex flex-col items-center justify-center">
-			<div className="backdrop-blur-sm bg-white bg-opacity-90 w-11/12 lg:w-[1000px] xl:w-[1200px] h-4/5 relative overflow-hidden rounded">
+			<div className="backdrop-blur-sm bg-white bg-opacity-90 w-11/12 lg:w-[1000px] xl:w-[1200px] max-md:h-5/6 h-4/5 relative overflow-hidden rounded">
 				<div
 					className={`w-full h-full flex flex-col items-center ${
 						submitSection && "translate-y-full opacity-0"
