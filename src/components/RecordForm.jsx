@@ -1,9 +1,9 @@
 "use client";
 import { createFakeRecords, createRecord, deleteAllRecord } from "@/apis";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import AnimatedNumbers from "react-animated-numbers";
 
-const RecordForm = ({ amounts }) => {
+const RecordForm = memo(({ amounts }) => {
 	const [name, setName] = useState("");
 	const [totalAmount, setTotalAmount] = useState({
 		totalMoneyAmount: 0,
@@ -20,7 +20,7 @@ const RecordForm = ({ amounts }) => {
 						totalCarbonAmount: 0,
 				  }
 		);
-	}, [amounts]);
+	}, []);
 
 	const handleChange = (e) => {
 		setName(e.target.value);
@@ -33,8 +33,8 @@ const RecordForm = ({ amounts }) => {
 			try {
 				const { result } = await createRecord(name, amounts.moneyAmount, amounts.carbonAmount);
 				const newTotal = { totalMoneyAmount: result.totalMoneyAmount, totalCarbonAmount: result.totalCarbonAmount };
-				setTotalAmount(newTotal);
 				localStorage.setItem("totalAmount", JSON.stringify(newTotal));
+				setTotalAmount(newTotal);
 			} catch (error) {
 				window.alert(error.response?.data?.message);
 			}
@@ -75,13 +75,16 @@ const RecordForm = ({ amounts }) => {
 			</div>
 			<div className="flex flex-col items-center space-y-10 max-lg:pt-8">
 				<strong className="lg:text-xl">輸入姓名，記錄你在減塑路上的每一步！</strong>
-				<form onSubmit={handleSubmit} className="flex flex-col items-center space-y-6">
+				<form className="flex flex-col items-center space-y-6">
 					<div>
 						<label className="font-bold mr-2">姓名:</label>
 						<input name="name" maxLength={16} className="rounded p-1 outline-none" value={name} onChange={handleChange} />
 					</div>
 					<div className="px-1 bg-lime-700 rounded-lg shadow-md">
-						<button type="submit" className="rounded-lg px-8 py-2 bg-lime-400 shadow-lg active:shadow-none -translate-y-1.5 active:-translate-y-1 duration-150">
+						<button
+							onClick={handleSubmit}
+							className="rounded-lg px-8 py-2 bg-lime-400 shadow-lg active:shadow-none -translate-y-1.5 active:-translate-y-1 duration-150"
+						>
 							<strong className="text-gray-500">提交記錄</strong>
 						</button>
 					</div>
@@ -90,32 +93,15 @@ const RecordForm = ({ amounts }) => {
 					<div className="text-xl lg:text-3xl flex items-center">
 						<p>你一共減少了碳排放量：</p>
 
-						<AnimatedNumbers
-							transitions={(index) => ({
-								type: "spring",
-								duration: (index + 0.5) / 1.5,
-								delay: 0.1,
-							})}
-							animateToNumber={totalAmount.totalCarbonAmount}
-						/>
-						<p>克</p>
+						<p>{totalAmount.totalCarbonAmount}克</p>
 					</div>
 					<div className="text-xl lg:text-3xl flex items-center">
-						<p>你一共節省了： $</p>
-
-						<AnimatedNumbers
-							transitions={(index) => ({
-								type: "spring",
-								duration: (index + 0.5) / 1.5,
-								delay: 0.1,
-							})}
-							animateToNumber={totalAmount.totalMoneyAmount}
-						/>
+						<p>你一共節省了： ${totalAmount.totalMoneyAmount}</p>
 					</div>
 				</div>
 			</div>
 		</div>
 	);
-};
+});
 
 export default RecordForm;
