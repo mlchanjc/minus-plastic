@@ -6,6 +6,9 @@ module.exports = {
 			backgroundImage: {
 				bg: "url('/public/bg.jpeg')",
 			},
+			screens: {
+				"2xl": "1600px",
+			},
 		},
 	},
 	plugins: [],

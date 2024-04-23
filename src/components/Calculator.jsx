@@ -86,12 +86,8 @@ const Calculator = () => {
 
 	return (
 		<div className="w-[98vw] h-[93vh] flex flex-col items-center justify-center">
-			<div className="backdrop-blur-sm bg-white bg-opacity-90 w-11/12 lg:w-[1000px] xl:w-[1200px] max-md:h-5/6 h-4/5 relative overflow-hidden rounded">
-				<div
-					className={`w-full h-full flex flex-col items-center ${
-						submitSection && "translate-y-full opacity-0"
-					} duration-500 absolute inset-0 p-4 justify-evenly space-y-4 overflow-auto`}
-				>
+			<div className="backdrop-blur-sm bg-white bg-opacity-90 w-11/12 lg:w-[1000px] xl:w-[1200px] max-md:h-5/6 h-5/6 relative overflow-hidden rounded">
+				<div className={`w-full h-full flex flex-col items-center ${submitSection && "translate-y-full opacity-0"} duration-500 absolute inset-0 p-4 justify-evenly space-y-4 overflow-auto`}>
 					<strong className="md:text-3xl">減塑計算器</strong>
 					<div className="max-sm:w-full max-md:w-4/5 max-md:flex max-md:flex-col lg:grid lg:grid-cols-4 lg:grid-rows-2 max-lg:space-y-4 lg:gap-4">
 						{itemList.map((item, i) => {
@@ -100,7 +96,7 @@ const Calculator = () => {
 									<strong className="text-sm lg:text-xl">{item.name}</strong>
 
 									<div className="flex justify-center w-full">
-										<div className="w-[50px] lg:w-2/3 aspect-square relative rounded overflow-hidden">
+										<div className="w-[50px] lg:w-[85px] 2xl:[120px] aspect-square relative rounded overflow-hidden">
 											<Image className="select-none" src={item.photo} fill alt={item.photo} priority />
 										</div>
 									</div>
@@ -143,10 +139,7 @@ const Calculator = () => {
 						})}
 					</div>
 					<div className="px-1 bg-lime-700 rounded-lg shadow-md">
-						<button
-							onClick={handleCalculate}
-							className="rounded-lg px-8 py-2 bg-lime-400 shadow-lg active:shadow-none -translate-y-1.5 active:-translate-y-1 duration-150"
-						>
+						<button onClick={handleCalculate} className="rounded-lg px-8 py-2 bg-lime-400 shadow-lg active:shadow-none -translate-y-1.5 active:-translate-y-1 duration-150">
 							<strong className="text-gray-500">計算</strong>
 						</button>
 					</div>
